@@ -24,33 +24,36 @@ import (
 // https://github.com/deluge-torrent/deluge/blob/deluge-2.0.3/deluge/core/torrent.py#L1033-L1143
 // If a new field is added to this struct it should also be added to the statusKeys map.
 type TorrentStatus struct {
-	ActiveTime          int64
-	CompletedTime       int64   `rencode:"v2only"`
-	TimeAdded           float32 // most times an integer
-	DistributedCopies   float32
-	ETA                 float32 // most times an integer
-	Progress            float32 // max is 100
-	Ratio               float32
-	IsFinished          bool
-	IsSeed              bool
-	Private             bool
-	DownloadLocation    string `rencode:"v2only"`
-	DownloadPayloadRate int64
-	Name                string
-	NextAnnounce        int64
-	NumPeers            int64
-	NumPieces           int64
-	NumSeeds            int64
-	PieceLength         int64
-	SeedingTime         int64
-	State               string
-	TotalDone           int64
-	TotalPeers          int64
-	TotalSeeds          int64
-	TotalSize           int64
-	TrackerHost         string
-	TrackerStatus       string
-	UploadPayloadRate   int64
+	ActiveTime           int64
+	CompletedTime        int64   `rencode:"v2only"`
+	TimeAdded            float32 // most times an integer
+	DistributedCopies    float32
+	ETA                  float32 // most times an integer
+	Progress             float32 // max is 100
+	Ratio                float32
+	IsFinished           bool
+	IsSeed               bool
+	Private              bool
+	DownloadLocation     string `rencode:"v2only"`
+	DownloadPayloadRate  int64
+	Name                 string
+	NextAnnounce         int64
+	NumPeers             int64
+	NumPieces            int64
+	NumSeeds             int64
+	PieceLength          int64
+	SeedingTime          int64
+	State                string
+	TotalDone            int64
+	TotalPeers           int64
+	TotalSeeds           int64
+	TotalSize            int64
+	TotalUploaded        int64
+	TotalPayloadDownload int64
+	TotalPayloadUpload   int64
+	TrackerHost          string
+	TrackerStatus        string
+	UploadPayloadRate    int64
 
 	Files          []File
 	Peers          []Peer
@@ -109,7 +112,11 @@ var statusKeys = rencode.NewList(
 	"time_added",
 	"completed_time",    // v2-only
 	"download_location", // v2-only
-	"private")
+	"private",
+	"total_payload_download",
+	"total_payload_upload",
+	"total_uploaded",
+)
 
 // TorrentStatus returns the status of the torrent with specified hash.
 func (c *Client) TorrentStatus(hash string) (*TorrentStatus, error) {
